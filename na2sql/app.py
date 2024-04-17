@@ -35,8 +35,6 @@ from llama_index.core import SQLDatabase, ServiceContext
 
 from llama_index.core.query_engine import NLSQLTableQueryEngine
 
-#os.environ['OPENAI_API_KEY'] = st.secrets['OPENAI_API_KEY']
-
 
 class StreamlitChatPack(BaseLlamaPack):
 
@@ -68,7 +66,7 @@ class StreamlitChatPack(BaseLlamaPack):
         # Load your image
         image = Image.open('logo.png')
         # Display the image in the sidebar at the top left
-        st.sidebar.image(image, width=70)
+        st.sidebar.image(image, use_column_width=True)
 
         if "messages" not in st.session_state:  # Initialize the chat messages history
             st.session_state["messages"] = [
@@ -77,10 +75,6 @@ class StreamlitChatPack(BaseLlamaPack):
 
         st.title(
             f"{self.page}💬"
-        )
-        st.info(
-            f"Explore Snowflake views with this AI-powered app. Pose any question and receive exact SQL queries.",
-            icon="ℹ️",
         )
         # Define the pills with emojis
         query_options = ["None", "In a markdown table format show which users bought '4K LED Smart TV', their purchase date and their location", "In a markdown table show all the products bought under books category and their reviews", "Analyse all the reviews for Electronics category and list points of improvements in a table"]
@@ -141,9 +135,6 @@ class StreamlitChatPack(BaseLlamaPack):
         # Close the connection
         conn.close()
         
-        st.sidebar.markdown('## Disclaimer')
-        st.sidebar.markdown("""This application is for demonstration purposes only and may not cover all aspects of real-world data complexities. Please use it as a guide and not as a definitive source for decision-making.""")
-    
         if "query_engine" not in st.session_state:  # Initialize the query engine
             st.session_state["query_engine"] = NLSQLTableQueryEngine(
                 sql_database=sql_database,
